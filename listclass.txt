@@ -1,0 +1,6 @@
+OperaWindowClass,3
+PieTTY,1
+Scintilla,3
+TPSSynEdit,3
+TRichViewEdit,3
+gdkWindow,5

@@ -1,0 +1,3 @@
+EditPlus,3
+PCMan,1
+ZTerm,1

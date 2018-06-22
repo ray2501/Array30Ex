@@ -1,0 +1,46 @@
+CC = g++.exe
+WINDRES = windres.exe
+RES  = array.res
+OBJ  = main.o message.o keyhandle.o arrayMain.o CINFile.o BOXFile.o HanConvert.o listfile.o $(RES)
+LIBS = -static-libgcc -static-libstdc++ -L"c:/MinGW/lib" -L"./Keyhook" -mwindows -lkernel32 -luser32 -lgdi32 -lkeyhook
+CFLAGS = -Os -D_WIN32_WINNT=0x0500 -DWINVER=0x0500 -DUNICODE -D_UNICODE -I"c:/MinGW/include" -I"./" -Wall
+BIN  = array30ex.exe
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	del $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(OBJ) -o $(BIN) $(LIBS)
+	strip $(BIN)
+
+main.o: main.cpp
+	$(CC) -c main.cpp -o main.o $(CFLAGS)
+
+message.o: message.cpp
+	$(CC) -c message.cpp -o message.o $(CFLAGS)
+
+keyhandle.o: keyhandle.cpp
+	$(CC) -c keyhandle.cpp -o keyhandle.o $(CFLAGS)
+
+arrayMain.o: arrayMain.cpp
+	$(CC) -c arrayMain.cpp -o arrayMain.o $(CFLAGS)
+
+CINFile.o: CINFile.cpp
+	$(CC) -c CINFile.cpp -o CINFile.o $(CFLAGS)
+
+BOXFile.o: BOXFile.cpp
+	$(CC) -c BOXFile.cpp -o BOXFile.o $(CFLAGS)
+
+listfile.o: listfile.cpp
+	$(CC) -c listfile.cpp -o listfile.o $(CFLAGS)	
+
+HanConvert.o: HanConvert.cpp
+	$(CC) -c HanConvert.cpp -o HanConvert.o $(CFLAGS)
+
+array.res: array.rc 
+	$(WINDRES) -c BIG5 -i array.rc --input-format=rc -o array.res -O coff
+

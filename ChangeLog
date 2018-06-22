@@ -1,0 +1,267 @@
+﻿
+更新紀錄：
+
+v1.7.9
+- 因為 MinGW 4.5.0-1 C++ auto-import issue 的關係，更新 for MinGW 使用的
+  Makefile.gcc，目前暫時先使用靜態連結設定來解決問題。
+
+v1.7.8
+- 感謝 PTT 網友 cnoize 的指導，加入對於 Console cmd.exe 的支援
+- 指定資源編譯時的 codepage 為 BIG5
+
+v1.7.7
+- 設定對話字串更改：「找到 Edit Control 時自動切換」更改為「啟動自動切換功能」
+- 修正編譯時因為型別的問題而導致的警告訊息
+- 更新 for Open Watcom 的 Project file
+
+v1.7.6
+- 建立 listclass.txt 和 listtitle.txt，讓使用者可以自己設定自動切換送字功能
+  時的送字方式
+- listclass.txt 用來比對送字目標視窗的 Windows Class
+- listtitle.txt 用來比對送字目標視窗的 Windows Title
+- 移除掉 CINFile/BOXFile class 裡不需要的函式
+
+v1.7.5
+- 消除一些編譯時的警告訊息
+- 使用 "PCMan" 而非 "Open PCMan" 來比對 PCMan 的視窗標題
+
+v1.7.4
+- 增加對 United State - Dvorak keyboard layout 的支援
+
+v1.7.3
+- 加強 UI 處理
+
+v1.7.2
+- 略為調整 source code, for Open Watcom support
+- 在 Keyhook 目錄加入 Keyhook.tgt, Keyhook.wpj, for OW support
+- 加入 Array30.tgt, Array30.wpj, for OW support (要自己手動 copy keyhook.lib 和
+  keyhook.dll)
+- Update Mingw Runtime for binary release  
+
+v1.7.1
+- 更新行列輸入法的對照表
+
+v1.7.0
+- 修改重繪機制，修正 CPU 使用率到達 50% 的 issue
+
+v1.6.9
+- Added string length in BOXFile.cpp and CINFile.cpp
+
+v1.6.8
+- 在 source code 中，將 □ 表示為 0x3000 (空白)
+
+v1.6.7
+- 送字時使用 std::wstring 取代 WCHAR * 直接傳遞，避免遇到 Gtk+ 程式送字的潛在問題
+- 增加送字後是否顯示 Unicode code 的選項（沒有實作在詞功能上）
+
+v1.6.6
+- 修正縮小至 system tray 之後如果要點選圖示會 crash 的問題
+- 移除 keyhook.h 中 Open Watcom 相關的宣告
+
+v1.6.5
+- 改變在萬元查詢時 Back Space 的處理方式，現在會判斷是否還有萬用字元以決定是否更新 UI
+- 在 source code 中，將 □ 表示為 0xA1BC，以避免 MinGW 以外的 C++ compiler build fail
+- 簡化 showChoiceText() 的 code，修改後可以增加可讀性
+- Change function showChoiceText() to setChoiceText()
+- keyhook.h 增加 Open Watcom 相關的宣告
+* 檔案更名：將 MinGW Makefile 改名為 Makefile.gcc
+
+v1.6.4
+- Merge getMainCode() and getMainCode2() function
+- 使用 std::string 取代 C-based string 來記錄使用者的 key
+- 加入基本的 * 與 ? 的萬用字元搜尋方式支援（不支援在詞上面使用此功能）
++File: OVWildcard.h
+
+v1.6.3
+- 使用圖形取代文字表示上一頁、下一頁
+- 加入新的 fucntion: OnPaint() 來處理 WM_PAINT 事件
+- 修改搜尋輸入法表格的方式，希望能夠加快處理的速度
+
+v1.6.2
+- 使用列舉字型的方式檢查字型，如果不存在 ExtB 字型則將 Unicode 3.1 ExtB 的字顯示為空白
+(注：這個方法不一定有用，但是可以有基本的檢查)
+- 調整視窗大小
+
+v1.6.1
+
+- 特別處理表示不存在的選字畫面，新細明體在灌完新版的以後和舊版的大小不一
++File: 增加 build.bat 來加快 build code 程序
+
+v1.6.0
+- 減少某些陣列的大小
+- 重新整理數字鍵的處理，讓 code 的處理可以更簡潔
+- 改變視窗的大小
+
+v1.5.9
+- 移除設定中的「插入文字到 Edit Control」，這個項目應該在開啟送字自動切換時使用
+- 將 PSPAD 的判斷改為使用 Window class name 「TPSSynEdit」
+- 修正 WM_IME_CHAR 在 Unicode 3.1 的送字方式，合併送出反而會導致錯誤
+
+v1.5.8
+- 因為 Gtk+ 使用剪貼簿「延遲提出」的做法，所以需要對 Gtk+ 寫的程式做特別處理
+
+v1.5.7
+- 針對 Scintilla 編輯元件使用自動切換功能，會自動切換為剪貼簿送字
+
+v1.5.6
+- Open PCMAN 在英數半形下使用 WM_CHAR 有時候會有不正常的行為，改用 WM_IME_CHAR
+
+v1.5.5
+- 修正在英數半形的情況下，在 Opera 無法送字的 issue，現在會自動切換為剪貼簿送字
+- 現在在英數半形的情況下，改為 WM_CHAR 送字，這個做法可以提高相容性
+- 移除英數半形的自動切換功能，在這個模式下沒有特別的益處
+- 加入 Opera (9.52) 與 Skype (3.60) 自動切換功能，會自動切換為剪貼簿送字
+- 加入 PSPAD/EditPlus 自動切換功能，送字時會自動切換為剪貼簿送字
+- 加入 SeaMonkey/FireFox 自動切換功能，送字時會使用 WM_IME_CHAR 模式
+- 加入 Firefox PCMAN plugin 自動切換功能，送字時使用 WM_IME_CHAR 模式
+
+v1.5.4
+- 修正當行列全形時沒有判斷當時半形/全形狀態會送出半形符號的問題
+
+v1.5.3
++File: 將資源 ID 定義移到 resource.h
+
+v1.5.2
+- 增加當選字列表超過十個字時候的處理
+- 修改按鍵處理的程式碼，儘量合併相同的處理部份
+
+v1.5.1
+- 修正當使用 WM_IME_CHAR 送出 Unicode extA/B的字時分開送的問題，現在會合併後再送
+- 簡化按數字鍵送字時的處理部份
+
+v1.5.0
+- 修正如果使用 Unicode 3.1 的表格，送 ExtB 的字會被截掉的問題
+- 合併一些函式以增加程式效率
+- 右鍵選單實作「設定視窗透明度」選項，可以在程式執行期間動態改變視窗透明度。
+
+v1.4.3
+- 修正自動判斷的方式，如果遇到 Borland 的 TEDIT 或者是 TRICHEDIT 反而會無法正確送字
+* 修正在 Skype 對話框下無法送字的問題
+
+v1.4.2
+- 修正 WM_IME_CHAR 的送字方式，現在會送到鍵盤 Focus 的視窗，而不是送到上層的視窗
+* 修正 Firefox 3.0 + PCMAN Plugin 無法接收中文字的問題
+
+v1.4.1
+- 增加找不到輸入法表格時的錯誤處理
+
+v1.4.0
+- 現在 Array30Ex 會記錄使用者使用滑鼠移動視窗後的位置
+- 新增下列特殊編碼的處理
+* 「，，ＰＬＣ」 輸入法列回到預設位置
+
+v1.3.6
+- 新增一些特殊編碼的處理
+* 「，，ＯＰＴ」 設定
+* 「，，ＯＵＴ」 離開
+
+v1.3.5
+- 合併 key 5 到 key 3 ~ 4 的處理，並且修正 Backspace 的處理
+
+v1.3.4
+- 修正因為要支援到 Unicde 3.1 對照表而引入的 bug，修正任意切換繁簡轉換時的問題
+
+v1.3.3
+- 更新設定對話框的字型，改為新細明體
+
+v1.3.2
+- 更新程式
+- 更新簡碼後按空白鍵的處理方式，現在如果沒有重碼會直接送字而不是等待使用者輸入
+- 在符號模式 disable Backspace 處理
+
+v1.3.1
+- 移除背景圖檔，改用系統所提供的顏色
+
+v1.3.0
+- 增加遇到微軟的 Edit Control 元件時的自動切換功能
+- 設定的對話框增加自動切換功能的選項（預設為開啟）
+- 中文化對話框的選項內容
+- 移除 message.h，將字串移到 array.rc
+- 更新對照表，更新為目前香草輸入法所使用的 Unicode 3.1 的對照表
+* 如果沒有對應的字型，畫面上會出現方塊字
+
+v1.2.2
+- 針對微軟的 Edit/RichEdit Control 元件提供 insert輸入方法，適用於記事本/Wordpad
+- 更換背景
+- 更新 readme.txt
+
+v1.2.1
+- 縮短送出 SHIFT + INC/CTRL + V 的間隔時間
+
+v1.2.0
+- CreateWindowEx() 加入 WS_EX_TRANSPARENT style，在 Task bar 不會顯示 Array30Ex task
+- 修正不正確的儲存設定 issue（應該修正了...）
+
+v1.1.9
+- 使用 Hotkey 方式實作 Shift 切換中/英文輸入
+
+v1.1.8
+- Improvement: 在一些地方新增加輸入錯誤時的 Beep 聲，修正一些小錯誤
+- improvement: 增加一些 code 的註解
+- 在沒有輸入的情況下處理 SPACE key 的情況併入 else 的處理 case，二者的處理是相同的
+
+v1.1.7
+- 加入繁簡轉換設定到設定對話框
+
+v1.1.6
+- 參考自香草輸入法繁簡轉換模組，實作輸出時的繁簡轉換功能，使用表格對照的方式實作
+* 詞庫目前不支援繁簡轉換功能
++File: HanConvert.cpp
++File: SC2TCTable.h
++File: TC2SCTable.h
+
+v1.1.5
+- Implement feature request: 在送字後清除剪貼簿
+- Bug fix: 修正詞庫輸出時如果沒有這個詞，會送出錯誤的詞 issue
+
+v1.1.4
+- 在資源檔案加入版本資訊
+
+v1.1.3
+- 修正一些小錯誤
+
+v1.1.2
+- keyboard hook 不會再 catch ESC/Back Space 二個按鍵
+- 使用 Hotkey 來取得 ESC/Back Sapce 的按鍵
+= 更改 Back Space 送字的方式（改為使用 SendInput 送出 Back Space）
+
+v1.1.1
+- 將中文訊息移到 message.h
+- 將 MessageBeep() 的參數改傳為 0
+
+v1.1.0
+- 修正輸入符號時如果使用 SHIFT + <，輸出會不正確的問題
+
+v1.0.9
+- 修正設定送字模式時儲存問題
+
+v1.0.8
+- 更改設計，使用 CTRL + SPACE 切換行列/英數模式
+- 更改設計，使用 SHIFT + SPACE 切換全形/半形模式
+
+v1.0.7
+- 設置 HOT KEY，SHIFT + F8 隱藏視窗，SHIFT + F9 恢復視窗
+
+v1.0.6
+- 增加剪貼簿 SHIFT+INSERT 送字方式
+
+v1.0.5
+- 增加 WM_IME_CHAR 的送字方式，同時增加送字的設定對話框
+
+v1.0.4
+- 加入縮小至 System Tray 的實作
+
+v1.0.3
+- 修正 keyhook.h，加入 extern "C" 的宣告，避免在 Linux cross-compile 下發生錯誤
+- 修正宣告為 #include <windowsx.h>
+- 加入版權宣告，本程式使用 MIT/BSD License
+from cnoize 網友的建議
+
+v1.0.2
+- 按空白鍵後沒有找到任何字時，增加基本的 Bepp 聲
+
+v1.0.1
+- 更改 Back Space 送字的方式（改為 SHIFT + Back Space）
+
+v1.0.0 --- 2008/06/03
+- 撰寫基本程式完成

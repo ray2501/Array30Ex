@@ -1,0 +1,19 @@
+CC = gcc.exe
+OBJ  = keyhook.o
+LIBS = -static-libgcc -L"c:/MinGW/lib" -mwindows -lkernel32 -luser32 -lgdi32
+CFLAGS = -O2 -D__MINGW__ -DBUILD_DLL -I"c:/MinGW/include" -I"./ -Wall
+DLL  = keyhook.dll
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(DLL) all-after
+
+clean: clean-custom
+	del *.a $(OBJ) $(DLL)
+
+$(DLL): $(OBJ)
+	$(CC) -shared -o $(DLL) $(OBJ) $(LIBS) -Wl,--out-implib,libkeyhook.a
+	strip $(DLL)
+
+keyhook.o: keyhook.c
+	$(CC) -c keyhook.c -o keyhook.o $(CFLAGS)	
