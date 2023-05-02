@@ -732,13 +732,16 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 				goto end;
 			}
 			
-			if(moreInputMode==false && isInputEnd==false)
+			if(moreInputMode==false)
 			{
 				if(curSize==1) //Key 1
 				{
 					ClearWindow();
 					goto end;
 				}
+
+				// Also set isInputEnd flag to false
+				isInputEnd = false;
 
 				if(curSize==2 || curSize==3)
 				{
