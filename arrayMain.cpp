@@ -657,7 +657,7 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			//Array30 the max key equals 5, it it the six-th key
+			//Array30 the max key equals 5, it is the six-th key
 			//so reset our state
 			MessageBeep(0);
 			ClearWindow();
