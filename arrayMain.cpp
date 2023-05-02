@@ -731,34 +731,27 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 
 				goto end;
 			}
+
+			// Also set isInputEnd flag to false
+			isInputEnd = false;
+			isBoxInput = false;
+			moreInputMode = false;
 			
-			if(moreInputMode==false)
+			if(curSize==1) //Key 1
 			{
-				if(curSize==1) //Key 1
-				{
-					ClearWindow();
-					goto end;
-				}
-
-				// Also set isInputEnd flag to false
-				isInputEnd = false;
-				isBoxInput = false;
-
-				if(curSize==2 || curSize==3)
-				{
-					getShortCode(wParam);
-					curSize--;
-				}
-				else 
-				{
-					getMainCode(wParam);
-					curSize--;
-				}
-			}
-			else
-			{
-				MessageBeep(0);
+				ClearWindow();
 				goto end;
+			}
+
+			if(curSize==2 || curSize==3)
+			{
+				getShortCode(wParam);
+				curSize--;
+			}
+			else 
+			{
+				getMainCode(wParam);
+				curSize--;
 			}
 		}
 	}		
