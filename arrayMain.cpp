@@ -742,6 +742,7 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 
 				// Also set isInputEnd flag to false
 				isInputEnd = false;
+				isBoxInput = false;
 
 				if(curSize==2 || curSize==3)
 				{
