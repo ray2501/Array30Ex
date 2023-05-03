@@ -479,6 +479,11 @@ void getMainCode(WPARAM wParam)
 
 		keylistCount = count;
 		keylistNumber = 0;
+
+		if (keylistCount > 10)
+		{
+			moreInputMode = true;
+		}
 	}
 
     WCHAR listString[1024];
@@ -1051,10 +1056,7 @@ skipme:
 				}
 				else
 				{
-					if(keylistCount > 10)
-						moreInputMode = true;
-					else
-						isInputEnd = true;
+					isInputEnd = true;
 				}
 			}
 			else
