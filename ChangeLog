@@ -1,6 +1,9 @@
 ﻿
 更新紀錄：
 
+v1.8.1
+- 程式改進（moreInputMode flag）
+
 v1.8.0
 - 因為修改 Backspace 行為的關係，同時也修改萬用字元部份的處理方式
 - 因應使用者的要求，更新與修正 Backspace 的行為
