@@ -62,6 +62,7 @@ extern BOXFile boxTable;
 bool   isInputEnd = false;
 bool   isNextRecord = true;
 bool   isBoxInput = false;
+bool   isSymbolInput = false;
 bool   isWildCard = false;
 
 bool   drawPrev = false;
@@ -135,6 +136,7 @@ void ClearWindow()
 	keylistNumber = 0;
 	isNextRecord = true;
 	isBoxInput = false;
+	isSymbolInput = false;
 	isWildCard = false;
 
 	drawPrev = false;
@@ -401,7 +403,7 @@ void getMainCode(WPARAM wParam)
 	// It is not a good idea but works, when user press a key, we search our
 	// table and get a list, so when user press VK_SPACE, we set flag first then
 	// we only need to handle UI change
-	if(moreInputMode==false)
+	if(isInputEnd==false && isBoxInput==false)
 	{
 		if(wParam != VK_SPACE) //Prvent wild card mode isInputEnd == true and send wParam == VK_SPACE
 		{
@@ -633,17 +635,15 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 				goto end;
 			}
 
-			if(isWildCard==true)
+			if(isSymbolInput==true)
 			{
-				getMainCode(wParam);
-				curSize++;
-
+				ClearWindow();
 				goto end;
 			}
 
-			if(moreInputMode==false)
+			if(isInputEnd==false)
 			{
-				if(curSize==1)
+				if(curSize==1 && isWildCard==false)
 				{
 					getShortCode(wParam);
 					curSize++;
@@ -676,13 +676,14 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 			goto end;
 		}
 
-		if(moreInputMode==false && isInputEnd==false)
+		if(isInputEnd==false && isBoxInput==false && isSymbolInput==false)
 		{
 			isWildCard = true;
 			getMainCode(wParam);
 			curSize++;
-			goto end;
 		}
+
+		goto end;
 	}
 	else if(wParam==VK_ESCAPE)
 	{
@@ -731,6 +732,12 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 						getMainCode((WPARAM) VK_SPACE);
 				}
 
+				goto end;
+			}
+
+			if (isSymbolInput==true)
+			{
+				ClearWindow();
 				goto end;
 			}
 
@@ -790,8 +797,8 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 						if(curSize==1 && key[0] == 'W') //Special handle for symbol mode
 						{
 							getMainCode(wParam);
-							moreInputMode = true;
 							curSize++;
+							isSymbolInput = true;
 							goto end;
 						}
 
@@ -882,6 +889,12 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 					goto end;
 				}
 
+				if(isSymbolInput==true)
+				{
+					ClearWindow();
+					goto end;
+				}
+
 				getBoxWord();
 
 				if(keylistCount != 0)
@@ -892,8 +905,9 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 				{
 					MessageBeep(0);
 					ClearWindow();
-					goto end;
 				}
+
+				goto end;
 			}
 			else if((wParam=='<' || wParam=='>'))
 			{
@@ -956,26 +970,24 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 						}
 
 						//Only update UI
-						getMainCode(wParam);
+						WCHAR listString[1024];
+						setChoiceText(false, listString, 1024);
+
+						SetWindowText(hChoiceText, listString);
 						goto end;
 					}
 				}
 			}
 			else if(wParam==VK_SPACE)
 			{
-				if(isBoxInput==true)
-				{
-					if(wordBuffer[0].empty() != true) SendUnicodeWord(wordBuffer[0], false);
-
-					ClearWindow();
-					goto end;
-				}
-
 				//If we are in moreInput mode, SPACE is change to next page
 				if(moreInputMode==true)
 				{
 					//Only update UI
-					getMainCode(wParam);
+					WCHAR listString[1024];
+					setChoiceText(false, listString, 1024);
+
+					SetWindowText(hChoiceText, listString);
 					goto end;
 				}
 
@@ -988,9 +1000,17 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 					goto end;
 				}
 
+				if(isBoxInput==true)
+				{
+					if(wordBuffer[0].empty() != true) SendUnicodeWord(wordBuffer[0], false);
+
+					ClearWindow();
+					goto end;
+				}
+
 				//get the main table code, if only 1 key-value pair send directly
 				//Array30 first show short code, if user press SPACE key then show main table code
-				if(isWildCard==false && (curSize==1 || curSize==2))
+				if(curSize==1 || curSize==2)
 				{
 					//In Key 1 and key 2, if user press SPACE need search main table
 					getMainCode(wParam);
