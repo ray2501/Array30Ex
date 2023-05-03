@@ -638,6 +638,9 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 			if(isSymbolInput==true)
 			{
 				ClearWindow();
+
+				getShortCode(wParam);
+				curSize++;
 				goto end;
 			}
 
