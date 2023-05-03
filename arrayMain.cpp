@@ -148,7 +148,6 @@ void ClearWindow()
 void ShowPrevNext(bool drawPrev, bool drawNext)
 {
 	HDC dc = GetDC(g_hwnd);
-	HDC hdc_mem = CreateCompatibleDC(dc);
 
 	RECT rect;
 	rect.left = 610;
@@ -157,31 +156,35 @@ void ShowPrevNext(bool drawPrev, bool drawNext)
 	rect.bottom = 28;
 	FillRect(dc, &rect, (HBRUSH) GetStockObject(COLOR_APPWORKSPACE));
 
-	BITMAP bmp_info, bmp_info2;
-	HBITMAP hBMPprev;
-	if(drawPrev)
-		hBMPprev = LoadBitmap(g_hInstance, _T("PAGEUP"));
-	else
-		hBMPprev = LoadBitmap(g_hInstance, _T("NPAGEUP"));
+	if (drawPrev == true || drawNext == true) {
+		HDC hdc_mem = CreateCompatibleDC(dc);
+		BITMAP bmp_info, bmp_info2;
+		HBITMAP hBMPprev;
+		if(drawPrev)
+			hBMPprev = LoadBitmap(g_hInstance, _T("PAGEUP"));
+		else
+			hBMPprev = LoadBitmap(g_hInstance, _T("NPAGEUP"));
 
-	HBITMAP hBMPnext;
-	if(drawNext)
-		hBMPnext = LoadBitmap(g_hInstance, _T("PAGEDN"));
-	else
-		hBMPnext = LoadBitmap(g_hInstance, _T("NPAGEDN"));
+		HBITMAP hBMPnext;
+		if(drawNext)
+			hBMPnext = LoadBitmap(g_hInstance, _T("PAGEDN"));
+		else
+			hBMPnext = LoadBitmap(g_hInstance, _T("NPAGEDN"));
 
-	GetObject(hBMPprev, (int)sizeof(BITMAP), &bmp_info);
-	GetObject(hBMPnext, (int)sizeof(BITMAP), &bmp_info2);
+		GetObject(hBMPprev, (int)sizeof(BITMAP), &bmp_info);
+		GetObject(hBMPnext, (int)sizeof(BITMAP), &bmp_info2);
 
-	SelectObject(hdc_mem, hBMPprev);
-	BitBlt(dc, 611, 2, 24, 24, hdc_mem, 0, 0, SRCCOPY);
+		SelectObject(hdc_mem, hBMPprev);
+		BitBlt(dc, 611, 2, 24, 24, hdc_mem, 0, 0, SRCCOPY);
 
-	SelectObject(hdc_mem, hBMPnext);
-	BitBlt(dc, 636, 2, 24, 24, hdc_mem, 0, 0, SRCCOPY);
+		SelectObject(hdc_mem, hBMPnext);
+		BitBlt(dc, 636, 2, 24, 24, hdc_mem, 0, 0, SRCCOPY);
 
-	DeleteDC(hdc_mem);
-	DeleteObject(hBMPprev);
-	DeleteObject(hBMPnext);
+		DeleteDC(hdc_mem);
+		DeleteObject(hBMPprev);
+		DeleteObject(hBMPnext);
+	}
+
 	ReleaseDC(g_hwnd, dc);
 }
 
@@ -297,6 +300,13 @@ void setChoiceText(bool boxFile, WCHAR *listString, int length)
 	{
 		drawPrev = true;
 		drawNext = true;
+
+		ShowPrevNext(drawPrev, drawNext);
+	}
+	else
+	{
+		drawPrev = false;
+		drawNext = false;
 
 		ShowPrevNext(drawPrev, drawNext);
 	}
