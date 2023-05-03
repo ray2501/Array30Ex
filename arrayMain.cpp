@@ -198,6 +198,12 @@ void setChoiceText(bool boxFile, WCHAR *listString, int length)
 	int number1 = keylistCount/10;
 	int number2 = keylistCount%10;
 
+	if (number1 > 0 && number2 == 0)
+	{
+		number1--;
+		number2 = 10;
+	}
+
 	if(isNextRecord==false)
 	{
 		if(keylistNumber==0 && keylistCount > 10)
@@ -803,6 +809,12 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 							int number1 = keylistCount/10;
 							int number2 = keylistCount%10;
 
+							if (number1 > 0 && number2 == 0)
+							{
+								number1--;
+								number2 = 10;
+							}
+
 							if(isNextRecord)
 							{
 								if(keylistNumber==0)
@@ -888,6 +900,14 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 								else
 								{
 									int number1 = keylistCount/10;
+									int number2 = keylistCount%10;
+
+									if (number1 > 0 && number2 == 0)
+									{
+										number1--;
+										number2 = 10;
+									}
+
 									keylistNumber = number1;
 								}
 							}
@@ -899,6 +919,13 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 							if(isNextRecord==false)
 							{
 								int number1 = keylistCount/10;
+								int number2 = keylistCount%10;
+
+								if (number1 > 0 && number2 == 0)
+								{
+									number1--;
+									number2 = 10;
+								}
 
 								if(keylistNumber < number1)
 								{
