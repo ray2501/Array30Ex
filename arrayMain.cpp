@@ -403,7 +403,7 @@ void getMainCode(WPARAM wParam)
 	// It is not a good idea but works, when user press a key, we search our
 	// table and get a list, so when user press VK_SPACE, we set flag first then
 	// we only need to handle UI change
-	if(isInputEnd==false && isBoxInput==false)
+	if(isInputEnd==false && isBoxInput==false && isSymbolInput==false)
 	{
 		if(wParam != VK_SPACE) //Prvent wild card mode isInputEnd == true and send wParam == VK_SPACE
 		{
