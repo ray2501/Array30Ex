@@ -805,6 +805,15 @@ void HandleArray(WPARAM wParam, LPARAM lParam)
 							goto end;
 						}
 
+                        //Special handle for symbol mode (added by v2026-1.02)
+                        if(curSize==2 && key[0] == 'H' && key[1] == 'G')
+                        {
+                            getMainCode(wParam);
+                            curSize++;
+                            isSymbolInput = true;
+                            goto end;
+                        }
+
 						if(wParam=='0')
 						{
 							wParam = wParam + 10;
